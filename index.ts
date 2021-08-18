@@ -18,10 +18,12 @@ class Department {
 }
 
 class ITDepartment extends Department {
-  constructor(id: string) {
+  admins: string[];
+  constructor(id: string, admins: string[]) {
     super(id, 'IT');
+    this.admins = admins;
   }
 }
 
-const itDepartment = new ITDepartment('itd1', 'IT');
+const itDepartment = new ITDepartment();
 itDepartment.describe();
