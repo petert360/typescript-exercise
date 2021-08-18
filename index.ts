@@ -25,5 +25,17 @@ class ITDepartment extends Department {
   }
 }
 
-const itDepartment = new ITDepartment();
-itDepartment.describe();
+class AccountingDepartment extends Department {
+  constructor(id: string, private reports: string[]) {
+    super(id, 'Accounting');
+  }
+
+  addReport(text: string) {
+    this.reports.push(text);
+  }
+}
+
+const it = new ITDepartment('it1', ['Peter']);
+it.addEmployee('Joe');
+it.addEmployee('Jack');
+console.log(it);
