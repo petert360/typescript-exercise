@@ -32,9 +32,10 @@ accounting.addEmployee('Jane');
 console.log('Setter előtt: ', accounting.listEmployees)
 
 // a setter segítségével is beállítunk egy tömb elemet
-accounting.addToEmployees = 'Jack'
+accounting.addToEmployees = ''
 
 // setter után:
 console.log('Setter után: ', accounting.listEmployees)
 
 // ha üres stringet adunk át, ami falsy, akkor hibaüzenetet kapunk
+// accounting.addToEmployees = ''
