@@ -15,8 +15,9 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var Department = /** @class */ (function () {
     function Department(id, n) {
+        this.id = id;
+        this.n = n;
         this._employees = [];
-        this.name = n;
     }
     Object.defineProperty(Department.prototype, "listEmployees", {
         get: function () {
@@ -45,15 +46,19 @@ var Department = /** @class */ (function () {
 }());
 // extends segítségével létrehozunk egy új aloszályt
 // mivel új constructort hoztunk létre, ezért szükség van a super() hívására.
-var ITDepartment = /** @class */ (function (_super) {
-    __extends(ITDepartment, _super);
-    function ITDepartment(id, admins) {
-        return _super.call(this, id, 'IT dept.') || this;
+var AccountingDepartment = /** @class */ (function (_super) {
+    __extends(AccountingDepartment, _super);
+    function AccountingDepartment(id) {
+        return _super.call(this, id, 'ACC dept.') || this;
     }
-    return ITDepartment;
+    // az alap osztály megköveteli a describe metódust az abstract segítségével
+    AccountingDepartment.prototype.describe = function () {
+        console.log('Accounting Department - ID: ' + this.id);
+    };
+    return AccountingDepartment;
 }(Department));
 // létrehozunk egy osztály példányt
-var accounting = new Department('ACC', 'Accounting');
+var accounting = new AccountingDepartment('ACC1');
 // most a publikus addEmployee metódussal adunk egy elemet a tömbhöz:
 accounting.addEmployee('Jane');
 // a getter metódust mint tulajdonságot érjük el
@@ -67,3 +72,5 @@ console.log('Setter után: ', accounting.listEmployees);
 // static metódus hívása
 var employee1 = Department.createEmployee('Joe');
 console.log(employee1);
+// az abstract describe metódus hívása:
+accounting.describe();

@@ -1,5 +1,4 @@
-class Department {
-  public name: string;
+abstract class Department {
   private _employees: string[] = [];
 
   get listEmployees() {
@@ -13,9 +12,11 @@ class Department {
     this.addEmployee(employee);
   }
 
-  constructor(id: string, n: string) {
-    this.name = n;
-  }
+  // létrehozunk egy abstract metódust, emiatt az egész osztály abstract lesz
+  // innentől kezdve már nem lehet közvetlenül példányosítani, csak az alosztályokat
+  abstract describe(): void;
+
+  constructor(protected readonly id: string, public n: string) {}
 
   static createEmployee(name: string) {
     return { name: name };
@@ -28,14 +29,18 @@ class Department {
 
 // extends segítségével létrehozunk egy új aloszályt
 // mivel új constructort hoztunk létre, ezért szükség van a super() hívására.
-class ITDepartment extends Department {
-  constructor(id: string, admins: string[]) {
-    super(id, 'IT dept.');
+class AccountingDepartment extends Department {
+  constructor(id: string) {
+    super(id, 'ACC dept.');
+  }
+  // az alap osztály megköveteli a describe metódust az abstract segítségével
+  describe() {
+    console.log('Accounting Department - ID: ' + this.id);
   }
 }
 
 // létrehozunk egy osztály példányt
-const accounting = new Department('ACC', 'Accounting');
+const accounting = new AccountingDepartment('ACC1');
 
 // most a publikus addEmployee metódussal adunk egy elemet a tömbhöz:
 accounting.addEmployee('Jane');
@@ -55,3 +60,6 @@ console.log('Setter után: ', accounting.listEmployees);
 // static metódus hívása
 const employee1 = Department.createEmployee('Joe');
 console.log(employee1);
+
+// az abstract describe metódus hívása:
+accounting.describe();
