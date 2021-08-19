@@ -1,49 +1,41 @@
 class Department {
-  protected employees: string[] = [];
+  public name: string; 
+  private _employees: string[] = [];
 
-  constructor(private readonly id: string, public name: string) {}
+  get listEmployees() {
+    return this._employees
+  }
 
-  describe(this: Department) {
-    console.log('Department: ' + this.name);
+  set addToEmployees(employee: string) {
+    if (!employee) {
+      throw new Error('Please provide a name')
+    }
+    this.addEmployee(employee)
+  }
+
+  constructor (n: string) {
+    this.name = n;
   }
 
   addEmployee(employee: string) {
-    this.employees.push(employee);
-  }
-
-  printEmployeeInformation() {
-    console.log(this.employees.length);
-    console.log(this.employees);
+	  this._employees.push(employee)
   }
 }
 
-class ITDepartment extends Department {
-  admins: string[];
-  constructor(id: string, admins: string[]) {
-    super(id, 'IT');
-    this.admins = admins;
-  }
-}
+// létrehozunk egy osztály példányt
+const accounting = new Department('Accounting');
 
-class AccountingDepartment extends Department {
-  constructor(id: string, private reports: string[]) {
-    super(id, 'Accounting');
-  }
+// most a publikus addEmployee metódussal adunk egy elemet a tömbhöz:
+accounting.addEmployee('Jane');
 
-  addEmployee(name: string) {
-    if (name === 'Peter') {
-      return;
-    }
-    this.employees.push(name);
-  }
-  addReport(text: string) {
-    this.reports.push(text);
-  }
-}
+// a getter metódust mint tulajdonságot érjük el
+console.log('Setter előtt: ', accounting.listEmployees)
 
-const it = new ITDepartment('it1', ['Peter']);
-it.addEmployee('Joe');
-it.addEmployee('Jack');
-console.log(it);
+// a setter segítségével is beállítunk egy tömb elemet
+accounting.addToEmployees = ''
 
-const accounting = new AccountingDepartment('acc1', []);
+// setter után:
+console.log('Setter után: ', accounting.listEmployees)
+
+// ha üres stringet adunk át, ami falsy, akkor hibaüzenetet kapunk
+// accounting.addToEmployees = ''
