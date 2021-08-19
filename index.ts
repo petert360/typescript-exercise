@@ -2,9 +2,6 @@ class Department {
   public name: string;
   private _employees: string[] = [];
 
-  // static tulajdonság létrehozása
-  static actualYear = 2021;
-
   get listEmployees() {
     return this._employees;
   }
@@ -16,9 +13,8 @@ class Department {
     this.addEmployee(employee);
   }
 
-  constructor(n: string) {
+  constructor(id: string, n: string) {
     this.name = n;
-    console.log('static tulajdonság: ', Department.actualYear);
   }
 
   static createEmployee(name: string) {
@@ -30,8 +26,16 @@ class Department {
   }
 }
 
+// extends segítségével létrehozunk egy új aloszályt
+// mivel új constructort hoztunk létre, ezért szükség van a super() hívására.
+class ITDepartment extends Department {
+  constructor(id: string, admins: string[]) {
+    super(id, 'IT dept.');
+  }
+}
+
 // létrehozunk egy osztály példányt
-const accounting = new Department('Accounting');
+const accounting = new Department('ACC', 'Accounting');
 
 // most a publikus addEmployee metódussal adunk egy elemet a tömbhöz:
 accounting.addEmployee('Jane');
@@ -48,6 +52,6 @@ console.log('Setter után: ', accounting.listEmployees);
 // ha üres stringet adunk át, ami falsy, akkor hibaüzenetet kapunk
 // accounting.addToEmployees = ''
 
-// static metódus hívása és static tulajdonság kiírása
+// static metódus hívása
 const employee1 = Department.createEmployee('Joe');
-console.log(employee1, Department.actualYear);
+console.log(employee1);
