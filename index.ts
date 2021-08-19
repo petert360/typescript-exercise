@@ -61,7 +61,7 @@ const accounting = AccountingDepartment.checkInstance();
 
 // ha megpróbálom létrehozni, csak a létezőt kapom vissza
 const accounting2 = AccountingDepartment.checkInstance();
-console.log(accounting, accounting2)
+console.log(accounting, accounting2);
 
 // most a publikus addEmployee metódussal adunk egy elemet a tömbhöz:
 accounting.addEmployee('Jane');
