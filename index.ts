@@ -30,17 +30,38 @@ abstract class Department {
 // extends segítségével létrehozunk egy új aloszályt
 // mivel új constructort hoztunk létre, ezért szükség van a super() hívására.
 class AccountingDepartment extends Department {
-  constructor(id: string) {
+  // ez a tulajdonság az osztály típust tartalmazhatja csak
+  private static instance: AccountingDepartment;
+
+  // csak az osztályon belülről érhető el a constructor,
+  // onnan kell megoldani a pldányosítást
+  private constructor(id: string) {
     super(id, 'ACC dept.');
   }
+
+  // annak ellenére, hogy static metódus, használhatjuk a thist,
+  // mert belülről hívjuk, így a saját osztályra mutat, amit kezelni akarunk
+  // ellenőrizzük, hogy létezik-e ha nem, akkor létrehozzuk.
+  static checkInstance() {
+    if (this.instance) {
+      return this.instance;
+    }
+    this.instance = new AccountingDepartment('ACC#1');
+    return this.instance;
+  }
+
   // az alap osztály megköveteli a describe metódust az abstract segítségével
   describe() {
     console.log('Accounting Department - ID: ' + this.id);
   }
 }
 
-// létrehozunk egy osztály példányt
-const accounting = new AccountingDepartment('ACC1');
+// most a static metódusával hozzuk létre az oszályt, ha nem létezik
+const accounting = AccountingDepartment.checkInstance();
+
+// ha megpróbálom létrehozni, csak a létezőt kapom vissza
+const accounting2 = AccountingDepartment.checkInstance();
+console.log(accounting, accounting2)
 
 // most a publikus addEmployee metódussal adunk egy elemet a tömbhöz:
 accounting.addEmployee('Jane');

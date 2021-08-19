@@ -48,17 +48,32 @@ var Department = /** @class */ (function () {
 // mivel új constructort hoztunk létre, ezért szükség van a super() hívására.
 var AccountingDepartment = /** @class */ (function (_super) {
     __extends(AccountingDepartment, _super);
+    // csak az osztályon belülről érhető el a constructor,
+    // onnan kell megoldani a pldányosítást
     function AccountingDepartment(id) {
         return _super.call(this, id, 'ACC dept.') || this;
     }
+    // annak ellenére, hogy static metódus, használhatjuk a thist,
+    // mert belülről hívjuk, így a saját osztályra mutat, amit kezelni akarunk
+    // ellenőrizzük, hogy létezik-e ha nem, akkor létrehozzuk.
+    AccountingDepartment.checkInstance = function () {
+        if (this.instance) {
+            return this.instance;
+        }
+        this.instance = new AccountingDepartment('ACC#1');
+        return this.instance;
+    };
     // az alap osztály megköveteli a describe metódust az abstract segítségével
     AccountingDepartment.prototype.describe = function () {
         console.log('Accounting Department - ID: ' + this.id);
     };
     return AccountingDepartment;
 }(Department));
-// létrehozunk egy osztály példányt
-var accounting = new AccountingDepartment('ACC1');
+// most a static metódusával hozzuk létre az oszályt, ha nem létezik
+var accounting = AccountingDepartment.checkInstance();
+// ha megpróbálom létrehozni, csak a létezőt kapom vissza
+var accounting2 = AccountingDepartment.checkInstance();
+console.log(accounting, accounting2);
 // most a publikus addEmployee metódussal adunk egy elemet a tömbhöz:
 accounting.addEmployee('Jane');
 // a getter metódust mint tulajdonságot érjük el
