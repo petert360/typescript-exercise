@@ -1,6 +1,7 @@
 // alap interface
 interface Named {
-  readonly name: string;
+  readonly name?: string;
+  outputName?: string;
 }
 
 // extends miatt megköveteli a Named tulajdonságait is.
@@ -9,36 +10,29 @@ interface Greetable extends Named {
 }
 
 // Implmentáljuk a Person osztályba a Greetable interface-t
-
+// a name-et opcionálissá tettük, de a construktorban is azzá kell tenni
+// a másik lehetőség, hogy alapértelemzett értéket adok neki.
 class Person implements Greetable {
-  name: string;
+  name?: string;
   age = 30;
-  constructor(n: string) {
-    this.name = n;
+  constructor(n?: string) {
+    if (n) {
+      this.name = n;
+    }
   }
+
+  // mivel az oszály engedi a paraméter nélküli hívást opcionálisan
+  // itt kell leellenőrizni, hogy van-e érték
   greet(phrase: string) {
-    console.log(phrase + ' ' + this.name);
+    if (this.name) {
+      console.log(phrase + ' ' + this.name);
+    } else {
+      console.log('Hi');
+    }
   }
 }
 
 // Most már létrehozható így is az user1 objektum
 let user1: Greetable;
-user1 = new Person('Peter');
+user1 = new Person();
 user1.greet('Hi there, I am');
-
-// type segítségével így hozhatunk létre függvényeket:
-type AddFn = (a: number, b: number) => number;
-let add: AddFn;
-add = (n1: number, n2: number) => {
-  return n1 + n2;
-};
-
-// interface segítségével is létrehozhatunk függvényeket
-// nevet nem adunk, anonym fv-t hozunk létre
-interface IAddFn {
-  (a: number, b: number): number;
-}
-let addI: IAddFn;
-addI = (n1: number, n2: number) => {
-  return n1 + n2;
-};
